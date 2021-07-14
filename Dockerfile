@@ -35,7 +35,7 @@ RUN set -x && \
     echo "==> Adding Python runtime..."  && \
     apk add --no-cache ${BUILD_PACKAGES} && \
     pip3 install --upgrade pip && \
-    pip3 install python-keyczar docker-py pywinrm requests ansible-tower-cli omsdk && \
+    pip3 install python-keyczar docker-py pywinrm requests && \
     \
     echo "==> Installing Ansible..."  && \
     pip3 install ansible==${ANSIBLE_VERSION} && \
@@ -51,9 +51,6 @@ RUN set -x && \
  
 COPY ansible.cfg /etc/ansible/ansible.cfg
 RUN chmod 444 /etc/ansible/ansible.cfg
-
-COPY tower_cli.cfg /etc/tower/tower_cli.cfg
-RUN chmod 444 /etc/tower/tower_cli.cfg
 
 COPY collections/requirements.yml /ansible/collections/requirements.yml
 RUN ansible-galaxy collection install -r /ansible/collections/requirements.yml

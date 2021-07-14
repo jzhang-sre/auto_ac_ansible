@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+docker run --rm -it \
+  -v $(pwd)/playbooks:/ansible/playbooks \
+  -v $(pwd)/inventory:/ansible/inventory \
+  -v $(pwd)/library:/ansible/library \
+  -v $(pwd)/files:/ansible/files \
+  -v $(pwd)/plugins:/usr/share/ansible/plugins \
+  -v $(pwd)/logs:/var/log/ \
+  --dns 10.7.0.60 \
+  ansible_container "$@"
+
+  #  -v ~/.ssh/:/root/.ssh/:ro \

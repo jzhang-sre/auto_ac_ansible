@@ -7,6 +7,6 @@ docker run --rm -it \
   -v $(pwd)/plugins:/usr/share/ansible/plugins \
   -v $(pwd)/logs:/var/log/ \
   --dns 10.7.0.60 \
-  ansible_container "$@"
+  aac_container "$@"
 
   #  -v ~/.ssh/:/root/.ssh/:ro \

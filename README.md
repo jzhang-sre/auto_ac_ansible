@@ -1,5 +1,7 @@
 # auto_ac_ansible
 
+Auto AC... because the AC in my building isn't very smart.
+
 ## Initial Setup
 
 ### Build Docker Container

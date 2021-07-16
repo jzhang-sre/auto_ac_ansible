@@ -1,0 +1,6 @@
+- name: adafruit-circuitpython-dht
+  ansible.builtin.pip:
+    name: adafruit-circuitpython-dht
+    state: present
+    executable: pip3
+  become: yes

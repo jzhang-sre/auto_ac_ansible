@@ -1,0 +1,7 @@
+- name: Copy sensor files
+  ansible.builtin.copy:
+    src: ../files/poll_sensor.py
+    dest: /opt/poll_sensor.py
+    owner: pi
+    mode: 0755
+  become: yes

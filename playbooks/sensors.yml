@@ -1,0 +1,4 @@
+---
+- hosts: sensors
+  roles:
+    - role: sensor

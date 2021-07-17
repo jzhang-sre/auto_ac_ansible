@@ -1,8 +1,8 @@
 ---
 - hosts: all
+  become: yes
   tasks:
     - name: apt-get full-upgrade
       ansible.builtin.apt:
         upgrade: full
-      become: yes
 

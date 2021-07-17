@@ -1,0 +1,8 @@
+- name: Install controller packages
+  import_tasks: controller_package.yml
+
+- name: Install apt packages
+  import_tasks: apt-packages.yml
+
+- name: Install pip packages
+  import_tasks: pip-packages.yml

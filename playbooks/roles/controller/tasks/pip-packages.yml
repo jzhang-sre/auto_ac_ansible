@@ -1,0 +1,29 @@
+- name: smbus
+  ansible.builtin.pip:
+    name: smbus
+    state: present
+    executable: pip3
+
+- name: sparkfun-qwiic
+  ansible.builtin.pip:
+    name: sparkfun-qwiic
+    state: present
+    executable: pip3
+
+- name: sparkfun-qwiic-i2c
+  ansible.builtin.pip:
+    name: sparkfun-qwiic-i2c
+    state: present
+    executable: pip3
+
+- name: sparkfun-qwiic-pca9685
+  ansible.builtin.pip:
+    name: sparkfun-qwiic-pca9685
+    state: present
+    executable: pip3
+
+- name: sparkfun-pi-servo-hat
+  ansible.builtin.pip:
+    name: sparkfun-pi-servo-hat
+    state: present
+    executable: pip3

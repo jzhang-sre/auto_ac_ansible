@@ -3,4 +3,3 @@
     name: adafruit-circuitpython-dht
     state: present
     executable: pip3
-  become: yes

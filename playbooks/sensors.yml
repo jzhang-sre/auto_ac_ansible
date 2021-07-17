@@ -1,4 +1,6 @@
 ---
 - hosts: sensors
+  gather_facts: no
+  become: yes
   roles:
     - role: sensor

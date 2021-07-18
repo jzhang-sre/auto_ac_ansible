@@ -1,6 +1,23 @@
+- name: Create HVAC Controller folder in /opt/
+  ansible.builtin.file:
+    path: /opt/hvac_controller
+    state: directory
+    owner: pi
+    group: pi
+    mode: 0774
+
+- name: Create HVAC Controller folder in /var/opt/
+  ansible.builtin.file:
+    path: /var/opt/hvac_controller
+    state: directory
+    owner: pi
+    group: pi
+    mode: 0774
+
 - name: Copy sensor files
   ansible.builtin.copy:
-    src: ../files/move_servo.py
-    dest: /opt/move_servo.py
+    src: ../files/hvac_controller
+    dest: /opt/
     owner: pi
-    mode: 0755
+    group: pi
+    mode: 0754

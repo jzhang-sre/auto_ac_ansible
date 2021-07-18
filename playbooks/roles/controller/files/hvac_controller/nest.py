@@ -59,3 +59,4 @@ if __name__ == '__main__':
 
       print("Turning AC OFF")
       nest_ctl.ac_off()
+    time.sleep(60)

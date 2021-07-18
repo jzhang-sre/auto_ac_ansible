@@ -4,14 +4,10 @@ import time
 import requests
 import json
 
-SENSOR_SERVER = "172.16.32.27"
-SENSOR_SERVER_PORT = 8080
-SENSOR_SERVER_ADDRESS = "http://" + SENSOR_SERVER + ":" + str(SENSOR_SERVER_PORT)
-TEMPERATURE_SETTING = "/var/opt/hvac_controller/set_temp.txt"
-LOG_FILE = "/var/opt/hvac_controller/log.txt"
+CONFIG_FILE = "/var/opt/hvac_controller/hvac_controller.json"
 
-def poll_sensor():
-  r = requests.get(SENSOR_SERVER_ADDRESS)
+def poll_sensor(sensor_address):
+  r = requests.get(sensor_address)
   return json.loads(r.text)
 
 def sensor_data_stale(timestamp):
@@ -21,55 +17,68 @@ def sensor_data_stale(timestamp):
   dt_diff = dt_now - dt_timestamp
 
   if int(dt_diff.seconds) > 120:
-    with open(LOG_FILE,'a') as f:
+    with open(configuration["Log File"],'a') as f:
       f.write("Temp sensor data stale, %i seconds old!\n" % dt_diff.seconds)
     return True
   else:
     return False
 
+def read_config(config_path):
+  try:
+    with open(config_path) as f:
+      config = json.load(f)
+  except:
+    print("Unable to load config file!")
+    exit(1)
+
+  return config
+
+def get_log_timestamp():
+  return str(datetime.fromtimestamp(int(time.time())))
+
+def write_temp_data_to_log(log_path, humidity, temp_f):
+  with open(log_path,'a') as f:
+    f.write("%s: Temperature (F): %.2f\n" % (get_log_timestamp(), temp_f))
+    f.write("%s: Humidity: %.2f\n" % (get_log_timestamp(), temp_f))
+
 if __name__ == '__main__':
-  nest_ctl = hvac_controller()
+  nest_ctl = hvac_controller() 
+  
+  with open(configuration["Log File"],'a') as f:
+    f.write("%s: AC controller started.\n" % get_log_timestamp())
 
   while True:
-    try:
-      with open(TEMPERATURE_SETTING) as f:
-        temperature_setting = float(f.read())
-    except:
-      temperature_setting = 77.25
+    configuration = read_config(CONFIG_FILE)
+    sensor_address = "http://" + str(configuration["Sensor Server"]) + ":" + str(configuration["Sensor Port"])
+    data = poll_sensor(sensor_address)
+    write_temp_data_to_log(configuration["Log File"], data["temperature_f"], data["humidity"])
 
-    data = poll_sensor()
-
-    with open(LOG_FILE,'a') as f:
-      f.write("* Desired temperature set to %.2f degrees (F)\n" % temperature_setting)
-      f.write("Temperature (F): %.2f\n" % data["temperature_f"])
-      f.write("Humidity: %.2f\n" % data["humidity"])
+    with open(configuration["Log File"],'a') as f:
+      f.write("%s: Desired temperature set to %.2f degrees (F) *\n" % (get_log_timestamp(), configuration["Temperature Setting"]))
 
     if sensor_data_stale(data['timestamp']):
       nest_ctl.ac_off()
+      f.write("%s: ERROR sensor data is stale! (More than 2 minutes old)\n" % get_log_timestamp())
       exit(1)
 
-    if data["temperature_f"] > (temperature_setting + .9):
-      with open(LOG_FILE,'a') as f:
-        f.write("* Turning AC ON for 15 minutes.\n")
+    if data["temperature_f"] > (configuration["Temperature Setting"] + .9):
+      with open(configuration["Log File"],'a') as f:
+        f.write("%s: Turning AC ON for 15 minutes.\n" % get_log_timestamp())
       nest_ctl.ac_on()
       for i in range(15):
         time.sleep(60)
-        after_cooling_data = poll_sensor()
-        with open(LOG_FILE,'a') as f:
-          f.write("Temperature (F): %.2f\n" % after_cooling_data["temperature_f"])
-          f.write("Humidity: %.2f\n" % after_cooling_data["humidity"])
+        active_cooling_data = poll_sensor()
+        write_temp_data_to_log(configuration["Log File"], active_cooling_data["temperature_f"], active_cooling_data["humidity"])
           
-
-      while after_cooling_data["temperature_f"] > (temperature_setting + .9):
-        with open(LOG_FILE,'a') as f:
-          f.write("* Continue cooling for another minute before checking temp.\n")
+      while active_cooling_data["temperature_f"] > (configuration["Temperature Setting"] + .9):
+        with open(configuration["Log File"],'a') as f:
+          f.write("%s: Target temp not yet reached, continue cooling for another minute before checking temp again.\n" % get_log_timestamp())
         time.sleep(60)
-        after_cooling_data = poll_sensor()
-        with open(LOG_FILE,'a') as f:
-          f.write("Temperature (F): %.2f\n" % after_cooling_data["temperature_f"])
-          f.write("Humidity: %.2f\n" % after_cooling_data["humidity"])
+        active_cooling_data = poll_sensor()
+        write_temp_data_to_log(configuration["Log File"], active_cooling_data["temperature_f"], active_cooling_data["humidity"])
+        
 
-      with open(LOG_FILE,'a') as f:
-        f.write("* Turning AC OFF\n")
+      with open(configuration["Log File"],'a') as f:
+        f.write("%s: Desired temp reached, turning AC off\n" % get_log_timestamp())
       nest_ctl.ac_off()
     time.sleep(60)

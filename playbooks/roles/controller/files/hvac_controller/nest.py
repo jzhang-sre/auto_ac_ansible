@@ -45,7 +45,7 @@ if __name__ == '__main__':
       exit(1)
 
     if data["temperature_f"] > (temperature_setting + .9):
-      print("Turning AC ON")
+      print("Turning AC ON for 15 minutes.")
       nest_ctl.ac_on()
       time.sleep(60*15)
       after_cooling_data = poll_sensor()

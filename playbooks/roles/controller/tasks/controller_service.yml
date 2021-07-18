@@ -1,0 +1,13 @@
+- name: Install HVAC Controller service
+  ansible.builtin.copy:
+    src: ../files/service_files/hvac_controller.service
+    dest: /etc/systemd/system/
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start Senser Server service
+  ansible.builtin.systemd:
+    state: started
+    name: hvac_controller
+    daemon_reload: yes

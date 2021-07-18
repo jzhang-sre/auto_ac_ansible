@@ -27,7 +27,7 @@ class hvac_controller:
     return self.last_command_timestamp
 
   def get_servo_position(self):
-    return = self.mySensor.get_servo_position(self.servo_channel)
+    return self.mySensor.get_servo_position(self.servo_channel)
 
 if __name__ == "__main__":
   args = sys.argv

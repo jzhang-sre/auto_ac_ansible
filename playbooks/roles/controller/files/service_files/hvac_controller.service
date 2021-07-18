@@ -1,0 +1,12 @@
+[Unit]
+Description=HVAC Controller Service
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart=/usr/bin/python3 /opt/hvac_controller/nest.py
+
+[Install]
+WantedBy=multi-user.target
+Alias=nest.service

@@ -9,3 +9,7 @@
 - name: Install pip packages
   import_tasks: pip-packages.yml
   become: yes
+
+- name: Install controller service
+  import_tasks: controller_service.yml
+  become: yes

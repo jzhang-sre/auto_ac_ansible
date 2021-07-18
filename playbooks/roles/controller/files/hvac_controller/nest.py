@@ -36,25 +36,26 @@ def read_config(config_path):
 def get_log_timestamp():
   return str(datetime.fromtimestamp(int(time.time())))
 
-def write_temp_data_to_log(log_path, humidity, temp_f):
+def write_temp_data_to_log(log_path, temp_f, humidity):
   with open(log_path,'a') as f:
     f.write("%s: Temperature (F): %.2f\n" % (get_log_timestamp(), temp_f))
-    f.write("%s: Humidity: %.2f\n" % (get_log_timestamp(), temp_f))
+    f.write("%s: Humidity: %.2f\n" % (get_log_timestamp(), humidity))
 
 if __name__ == '__main__':
   nest_ctl = hvac_controller() 
   
-  with open(configuration["Log File"],'a') as f:
-    f.write("%s: AC controller started.\n" % get_log_timestamp())
-
   while True:
     configuration = read_config(CONFIG_FILE)
-    sensor_address = "http://" + str(configuration["Sensor Server"]) + ":" + str(configuration["Sensor Port"])
+    sensor_address = "http://" + str(configuration["Sensor Server"]) + ":" + str(configuration["Sensor Server Port"])
+
+    with open(configuration["Log File"],'a') as f:
+      f.write("%s: Getting sensor data from %s\n" % (get_log_timestamp(), sensor_address))
+
     data = poll_sensor(sensor_address)
     write_temp_data_to_log(configuration["Log File"], data["temperature_f"], data["humidity"])
 
     with open(configuration["Log File"],'a') as f:
-      f.write("%s: Desired temperature set to %.2f degrees (F) *\n" % (get_log_timestamp(), configuration["Temperature Setting"]))
+      f.write("%s: Desired temperature set to %.2f degrees (F)\n" % (get_log_timestamp(), configuration["Temperature Setting"]))
 
     if sensor_data_stale(data['timestamp']):
       nest_ctl.ac_off()

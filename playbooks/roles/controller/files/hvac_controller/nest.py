@@ -65,7 +65,9 @@ if __name__ == '__main__':
     if data["temperature_f"] > (configuration["Temperature Setting"] + .9):
       with open(configuration["Log File"],'a') as f:
         f.write("%s: Turning AC ON for 15 minutes.\n" % get_log_timestamp())
+
       nest_ctl.ac_on()
+
       for i in range(15):
         time.sleep(60)
         active_cooling_data = poll_sensor()
@@ -77,9 +79,9 @@ if __name__ == '__main__':
         time.sleep(60)
         active_cooling_data = poll_sensor()
         write_temp_data_to_log(configuration["Log File"], active_cooling_data["temperature_f"], active_cooling_data["humidity"])
-        
+
+      nest_ctl.ac_off()
 
       with open(configuration["Log File"],'a') as f:
         f.write("%s: Desired temp reached, turning AC off\n" % get_log_timestamp())
-      nest_ctl.ac_off()
     time.sleep(60)

@@ -14,10 +14,36 @@
     group: pi
     mode: 0774
 
-- name: Copy sensor files
+- name: Copy controller files
   ansible.builtin.copy:
     src: ../files/hvac_controller
     dest: /opt/
     owner: pi
     group: pi
     mode: 0754
+
+- name: Copy controller config
+  ansible.builtin.copy:
+    src: ../files/config/hvac_controller.json
+    dest: /var/opt/hvac_controller/
+    owner: pi
+    group: pi
+    mode: 0664
+
+- name: Set sensor server address
+  ansible.builtin.replace:
+    path: /var/opt/hvac_controller/hvac_controller.json
+    regexp: "<SENSOR_SERVER>"
+    replace: "{{ sensor_address }}"
+
+- name: Set sensor server port
+  ansible.builtin.replace:
+    path: /var/opt/hvac_controller/hvac_controller.json
+    regexp: "<SENSOR_PORT>"
+    replace: "{{ sensor_port }}"
+
+- name: Set sensor log file
+  ansible.builtin.replace:
+    path: /var/opt/hvac_controller/hvac_controller.json
+    regexp: "<LOG_FILE>"
+    replace: "{{ log_file }}"

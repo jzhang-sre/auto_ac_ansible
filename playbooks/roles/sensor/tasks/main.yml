@@ -1,8 +1,18 @@
 - name: Install sensor packages
   import_tasks: sensor_package.yml
+  become: yes
 
 - name: Install apt packages
   import_tasks: apt-packages.yml
+  become: yes
 
 - name: Install pip packages
   import_tasks: pip-packages.yml
+  become: yes
+
+- name: Install cron jobs
+  import_tasks: crontab.yml
+
+- name: Install sensor service
+  import_tasks: sensor_service.yml
+  become: yes

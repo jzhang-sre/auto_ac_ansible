@@ -1,6 +1,23 @@
-- name: Copy sensor files
-  ansible.builtin.copy:
-    src: ../files/poll_sensor.py
-    dest: /opt/poll_sensor.py
+- name: Create Sensor Server folder in /opt/
+  ansible.builtin.file:
+    path: /opt/sensor_server
+    state: directory
     owner: pi
-    mode: 0755
+    group: pi
+    mode: 0774
+
+- name: Create Sensor Server folder in /var/opt/
+  ansible.builtin.file:
+    path: /var/opt/sensor_server
+    state: directory
+    owner: pi
+    group: pi
+    mode: 0774
+
+- name: Copy Sensor Server files and folders
+  ansible.builtin.copy:
+    src: ../files/sensor_server
+    dest: /opt/
+    owner: pi
+    group: pi
+    mode: 0754

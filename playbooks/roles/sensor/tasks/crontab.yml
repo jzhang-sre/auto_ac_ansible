@@ -1,0 +1,5 @@
+- name: Set Sensor Logger cron job
+  ansible.builtin.cron:
+    name: "Sensor Logger"
+    job: "/usr/bin/python3 /opt/sensor_server/sensor_logger.py"
+    user: pi

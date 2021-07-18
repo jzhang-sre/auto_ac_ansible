@@ -1,0 +1,13 @@
+- name: Install Sensor Server service
+  ansible.builtin.copy:
+    src: ../files/service_files/sensor_server.service
+    dest: /etc/systemd/system/
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start Senser Server service
+  ansible.builtin.systemd:
+    state: started
+    name: sensor_server
+    daemon_reload: yes

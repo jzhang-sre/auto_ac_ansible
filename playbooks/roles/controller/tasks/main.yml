@@ -1,8 +1,11 @@
 - name: Install controller packages
   import_tasks: controller_package.yml
+  become: yes
 
 - name: Install apt packages
   import_tasks: apt-packages.yml
+  become: yes
 
 - name: Install pip packages
   import_tasks: pip-packages.yml
+  become: yes

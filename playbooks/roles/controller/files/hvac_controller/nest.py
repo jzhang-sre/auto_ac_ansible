@@ -70,18 +70,19 @@ if __name__ == '__main__':
 
       for i in range(15):
         time.sleep(60)
-        active_cooling_data = poll_sensor()
+        active_cooling_data = poll_sensor(sensor_address)
         write_temp_data_to_log(configuration["Log File"], active_cooling_data["temperature_f"], active_cooling_data["humidity"])
-          
+
       while active_cooling_data["temperature_f"] > (configuration["Temperature Setting"] + .9):
         with open(configuration["Log File"],'a') as f:
           f.write("%s: Target temp not yet reached, continue cooling for another minute before checking temp again.\n" % get_log_timestamp())
         time.sleep(60)
-        active_cooling_data = poll_sensor()
+        active_cooling_data = poll_sensor(sensor_address)
         write_temp_data_to_log(configuration["Log File"], active_cooling_data["temperature_f"], active_cooling_data["humidity"])
 
       nest_ctl.ac_off()
 
       with open(configuration["Log File"],'a') as f:
         f.write("%s: Desired temp reached, turning AC off\n" % get_log_timestamp())
+
     time.sleep(60)

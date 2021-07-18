@@ -1,8 +1,19 @@
 # auto_ac_ansible
 
-Auto AC... because the AC in my building isn't very smart.
+Auto AC... because the AC in my building isn't designed very well.
+
+The AC unit in my apartment keeps the blower running even if the set temperature is reached, all it does is turns off the AC compressor. This has the effect of warming up the apartment by blowing non-cooled air along with evaporating all the humidity the AC took out of the air and adding it back to the apartment. 
+
+Not the greatest level of control:
+![image](https://user-images.githubusercontent.com/66385638/126082740-abe26536-7e84-422d-a00c-91164ac866e4.png)
+
+Using two Pi Zero's, one as a temp sensor and one as a servo controller, the AC can be fully turned on and off based on more precise temperature readings. This also prevents the blower from running when the AC isn't on and cooling the apartment. Since there are two AC units in my apartment, multiple temperature sensors and controllers will be linked togheter to intellegently cool the apartment.
+
+Future plans are to add a GUI front end to control the networked units and scheduling.
 
 ## Initial Setup
+
+This project uses Ansible to push out necessary dependencies and configuring the services.
 
 ### Build Docker Container
 

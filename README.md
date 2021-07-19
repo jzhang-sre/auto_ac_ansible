@@ -2,7 +2,7 @@
 
 Auto AC... because the AC in my building isn't designed very well.
 
-The AC unit in my apartment keeps the blower running even if the set temperature is reached, all it does is turns off the AC compressor. This has the effect of warming up the apartment by blowing non-cooled air along with evaporating all the humidity the AC took out of the air and adding it back to the apartment. 
+The AC unit in my apartment keeps the blower running even if the set temperature is reached, it only turns off the AC compressor when the set temperature is reached. This has the effect of warming up the apartment by blowing non-cooled air along with evaporating all the humidity the AC took out of the air and adding it back to the apartment. 
 
 Not the greatest level of control:
 ![image](https://user-images.githubusercontent.com/66385638/126082740-abe26536-7e84-422d-a00c-91164ac866e4.png)
@@ -10,6 +10,16 @@ Not the greatest level of control:
 Using two Pi Zero's, one as a temp sensor and one as a servo controller, the AC can be fully turned on and off based on more precise temperature readings. This also prevents the blower from running when the AC isn't on and cooling the apartment. Since there are two AC units in my apartment, multiple temperature sensors and controllers will be linked togheter to intellegently cool the apartment.
 
 Future plans are to add a GUI front end to control the networked units and scheduling.
+
+### Hardware Used:
+
+* [Pi Zero W](https://www.amazon.com/Raspberry-Pi-Zero-Wireless-model/dp/B06XFZC3BX/ref=sr_1_5?dchild=1&keywords=pi+zero&qid=1626648508&sr=8-5)
+* [SparkFun Servo pHAT for Raspberry Pi](https://www.sparkfun.com/products/15316)
+* [DHT22/AM2302 Digital Temperature Humidity Sensor Module](https://www.amazon.com/gp/product/B073F472JL/ref=ppx_yo_dt_b_asin_title_o05_s00?ie=UTF8&psc=1)
+* [D Shaft Coupling](https://www.amazon.com/gp/product/B07R78458M/ref=ppx_yo_dt_b_asin_title_o02_s00?ie=UTF8&psc=1)
+* [Servo](https://www.sparkfun.com/products/11965)
+
+
 
 ## Initial Setup
 

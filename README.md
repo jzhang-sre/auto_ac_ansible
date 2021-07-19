@@ -2,10 +2,14 @@
 
 Auto AC... because the AC in my building isn't designed very well.
 
-The AC unit in my apartment keeps the blower running even if the set temperature is reached, it only turns off the AC compressor when the set temperature is reached. This has the effect of warming up the apartment by blowing non-cooled air along with evaporating all the humidity the AC took out of the air and adding it back to the apartment. 
+The AC unit in my apartment keeps the blower running even if the set temperature is reached, it only turns off the AC compressor when the set temperature is reached. This has the effect of warming up the apartment by blowing non-cooled air along with evaporating all the humidity the AC took out of the air and adding it back to the apartment.
 
 Not the greatest level of control:
 ![image](https://user-images.githubusercontent.com/66385638/126082740-abe26536-7e84-422d-a00c-91164ac866e4.png)
+
+#### Why not just use a [smart outlet](https://www.amazon.com/Amazon-smart-plug-works-with-Alexa/dp/B089DR29T6) to control the AC, there are plenty of thermostat apps that work with smart outlets?
+
+Unfortunately the AC units run on a [20 AMP plug](https://www.google.com/search?q=20+amp+plug&rlz=1C1GCEU_enUS925US925&source=lnms&tbm=isch&sa=X&ved=2ahUKEwif39alju7xAhWEGFkFHQ7ZAcQQ_AUoAXoECAEQAw&biw=2560&bih=1329) and there are no 20 AMP smart outlets. I could do something similar with a [relay](https://alselectro.wordpress.com/2018/09/26/raspberry-pi-all-about-controlling-relay-boards-for-home-automation/) controlled by a Pi but in case or error, I'd rather deal with the AC being on for too long or not at all versus a possible electrical fire.
 
 Using two Pi Zero's, one as a temp sensor and one as a servo controller, the AC can be fully turned on and off based on more precise temperature readings. This also prevents the blower from running when the AC isn't on and cooling the apartment. Since there are two AC units in my apartment, multiple temperature sensors and controllers will be linked togheter to intellegently cool the apartment.
 

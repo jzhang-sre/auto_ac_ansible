@@ -4,8 +4,9 @@ After=multi-user.target
 
 [Service]
 Type=simple
-Restart=on-failure
+Restart=no
 ExecStart=/usr/bin/python3 /opt/hvac_controller/nest.py
+ExecStopPost=/usr/bin/python3 /opt/hvac_controller/classes/hvac_controller.py off
 
 [Install]
 WantedBy=multi-user.target

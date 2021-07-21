@@ -11,7 +11,7 @@ all:
     controllers:
       hosts:
         pi-controller01:
-          ansible_host: 172.16.32.139
+          ansible_host: 172.16.32.28
           sensor_address: "172.16.32.27"
           sensor_port: "8080"
           log_file: "/var/opt/hvac_controller/log.txt"
